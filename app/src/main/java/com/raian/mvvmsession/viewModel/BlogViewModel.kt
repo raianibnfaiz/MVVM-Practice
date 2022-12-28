@@ -14,6 +14,10 @@ class BlogViewModel : ViewModel() {
         newList.add(blog)
         list.value = newList
     }
+    fun updateBlog(position:Int, blog:Blog){
+        newList.set(position,blog)
+        list.value = newList
+    }
 
     fun removeBlog(blog:Blog){
         newList.remove(blog)

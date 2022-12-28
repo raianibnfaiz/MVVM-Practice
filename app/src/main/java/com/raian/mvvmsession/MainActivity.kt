@@ -32,7 +32,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var layoutManager = LinearLayoutManager(this)
-    private lateinit var viewMode: BlogViewModel
+    private lateinit var viewModel: BlogViewModel
     private lateinit var recyclerView : RecyclerView
     private lateinit var button: Button
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         recyclerView = findViewById(R.id.recycler)
         val factory = BlogViewModelProvideFactory()
-        viewMode = ViewModelProvider(this, factory)[BlogViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[BlogViewModel::class.java]
 
         binding.button.setOnClickListener{
             addData()
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     private fun addData(){
         val title = binding.titletxt.text.toString()
         val blog = Blog(title, getDate())
-        viewMode.addBlog(blog)
+        viewModel.addBlog(blog)
         recyclerView.adapter?.notifyDataSetChanged()
     }
     private fun getDate(): String {
@@ -64,8 +64,9 @@ class MainActivity : AppCompatActivity() {
         observeData()
     }
     private fun observeData(){
-        viewMode.list.observe(this, androidx.lifecycle.Observer {
-            recyclerView.adapter = BlogRecyclerAdapter(this, viewMode, it)
+        viewModel.list.observe(this, androidx.lifecycle.Observer {
+            recyclerView.adapter = BlogRecyclerAdapter(this, viewModel, it)
         })
     }
+
 }
